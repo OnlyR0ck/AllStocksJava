@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.AdminViewController">
+   <children>
+      <Label layoutX="172.0" layoutY="172.0" text="It's admin view" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="172.0" AnchorPane.rightAnchor="172.66666666666663" AnchorPane.topAnchor="172.0">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
