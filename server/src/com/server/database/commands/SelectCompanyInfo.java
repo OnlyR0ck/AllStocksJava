@@ -1,6 +1,8 @@
 package com.server.database.commands;
 
 import com.server.database.IRequestable;
+import com.server.database.ISqlQuery;
+import com.server.database.IUpdateable;
 import com.server.database.enums.Company;
 import com.server.database.enums.Shemas;
 import com.server.database.enums.User;
@@ -85,3 +87,4 @@ public class SelectCompanyInfo implements IRequestable {
     `zip` INT,
     `image` VARCHAR(80),
     `ipoDate` DATETIME,*/
+

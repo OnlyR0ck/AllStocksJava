@@ -19,6 +19,12 @@ public enum SceneType {
             return "sign-up-view.fxml";
         }
     },
+    SearchView {
+        @Override
+        public String toString() {
+            return "search-view.fxml";
+        }
+    },
     UserView {
         @Override
         public String toString() {

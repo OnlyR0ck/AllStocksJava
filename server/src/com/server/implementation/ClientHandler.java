@@ -6,6 +6,7 @@ import com.server.database.DatabaseConnection;
 import com.server.database.ISqlQuery;
 import com.server.database.commands.AddNewUser;
 import com.server.database.commands.SelectUser;
+import com.server.models.CompanyInfoModel;
 import com.server.models.UserModel;
 
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class ClientHandler implements Runnable {
         while (true) {
             try {
                 String clientQuery = ((String) inputStream.readObject()).trim();
+                System.out.println(clientQuery);
                 String[] splitedQuery = clientQuery.split(" ");
                 ServerCommandType commandType = ServerCommandType.valueOf(splitedQuery[0]);
                 String dataFromClient = String.
@@ -79,10 +81,11 @@ public class ClientHandler implements Runnable {
                         getUser(dataFromClient);
                         return;
                     }
-                    case Register -> {
-                        sqlUpdateQuery = new AddNewUser();
+                    case Register -> sqlUpdateQuery = new AddNewUser();
+                    case CompanyInfo -> {
+                        getCompanyInfo(dataFromClient);
+                        return;
                     }
-                    case CompanyInfo -> getCompanyInfo(dataFromClient);
                 }
 
                 if (sqlUpdateQuery != null) {
@@ -112,8 +115,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void getCompanyInfo(String dataFromClient) {
-
+    private void getCompanyInfo(String dataFromClient) throws IOException {
+        AllStocksService service = new AllStocksService(dbConnection.getMyConnection());
+        Vector<CompanyInfoModel> infoModels = service.getCompanyInfo(dataFromClient);
+        outputStream.writeObject(infoModels);
+        outputStream.flush();
     }
 
     private void getUser(String dataFromClient) throws IOException {
