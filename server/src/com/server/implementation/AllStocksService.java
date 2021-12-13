@@ -26,7 +26,7 @@ public class AllStocksService {
 
         }
 
-
+        return null;
     }
 
     public String getCompanyInfo(String symbol) {
@@ -58,6 +58,9 @@ public class AllStocksService {
         Vector<CompanyInfoModel > infos = new Vector<>();
         /*GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();*/
+
+//        Gson gson = new Gson();
+
 
         return infos;
     }
