@@ -8,9 +8,6 @@ module com.gui {
     requires com.google.gson;
     requires server;
 
-    /*opens com.client.client to javafx.fxml;
-    exports com.client.client;*/
-
     opens com.gui to javafx.fxml;
     exports com.gui;
     exports com.client.implementation;

@@ -9,6 +9,7 @@ import com.server.models.KeyMetricsModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.util.Date;
 import java.util.Vector;
 
 public class UserViewController {
@@ -92,9 +94,6 @@ public class UserViewController {
     private Label marketCapField;
 
     @FXML
-    private Label enterpriseValueField;
-
-    @FXML
     private Label pbRatioField;
 
     @FXML
@@ -122,8 +121,15 @@ public class UserViewController {
 
     //endregion
 
+    //region Description
     @FXML
     private Tab ticketDailyTab;
+
+    @FXML
+    private AreaChart<Date, Double> dailyChart;
+
+    private boolean dailyGraphIsLoaded;
+    //endregion
 
     @FXML
     private Tab ticketRangedTab;
@@ -162,9 +168,16 @@ public class UserViewController {
         {
             if(ticketDailyTab.isSelected())
             {
-
+                if(!dailyGraphIsLoaded)
+                {
+                    loadDailyGraph();
+                }
             }
         });
+    }
+
+    private void loadDailyGraph() {
+
     }
 
     private void updateView() {
