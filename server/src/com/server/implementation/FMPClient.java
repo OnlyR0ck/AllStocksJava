@@ -60,7 +60,7 @@ public class FMPClient {
         return answer.toString();
     }
 
-    public String getTicketRealTimeInfo(String symbol)
+    public String getTicketQuoteInfo(String symbol)
     {
         StringBuilder answer = new StringBuilder();
 

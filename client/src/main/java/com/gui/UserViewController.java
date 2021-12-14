@@ -6,19 +6,15 @@ import com.client.services.SearchService;
 import com.server.commands.ServerCommandType;
 import com.server.models.CompanyInfoModel;
 import com.server.models.KeyMetricsModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
+import com.server.models.StocksInfoModel;
 import javafx.fxml.FXML;
-import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
-import java.util.Date;
 import java.util.Vector;
 
 public class UserViewController {
@@ -121,14 +117,55 @@ public class UserViewController {
 
     //endregion
 
-    //region Description
+    //region TicketDaily
+
     @FXML
     private Tab ticketDailyTab;
 
     @FXML
-    private AreaChart<Date, Double> dailyChart;
+    private Tab companyNameQuote;
 
-    private boolean dailyGraphIsLoaded;
+    @FXML
+    private Tab symbolQuote;
+
+    @FXML
+    private Label priceDaily;
+
+    @FXML
+    private Label changePercentageDaily;
+
+    @FXML
+    private Label changeDaily;
+
+    @FXML
+    private Label dayLow;
+
+    @FXML
+    private Label dayHigh;
+
+    @FXML
+    private Label yearLow;
+
+    @FXML
+    private Label yearHigh;
+
+    @FXML
+    private Label marketCapDaily;
+
+    @FXML
+    private Label priceAvg50;
+
+    @FXML
+    private Label priceAvg200;
+
+    @FXML
+    private Label openDailyPrice;
+
+    @FXML
+    private Label closeDailyPrice;
+
+    private boolean isTicketDailyInfoLoaded;
+    
     //endregion
 
     @FXML
@@ -168,16 +205,43 @@ public class UserViewController {
         {
             if(ticketDailyTab.isSelected())
             {
-                if(!dailyGraphIsLoaded)
+                if(!isTicketDailyInfoLoaded)
                 {
-                    loadDailyGraph();
+                    updateDailyTicketTab();
                 }
             }
         });
     }
 
-    private void loadDailyGraph() {
+    private void updateDailyTicketTab() {
+        String searchTerm = SearchService.getInstance().getSearchTerm();
+        String clientRequest = String.format("%s %s", ServerCommandType.StockQuote, searchTerm);
+        AllClient client = AllClient.getInstance();
+        client.sendData(clientRequest);
 
+        Vector<StocksInfoModel> infoModels = client.receiveModels();
+        StocksInfoModel infoModel = infoModels.get(0);
+
+        setDailyTicketData(infoModel);
+    }
+
+    private void setDailyTicketData(StocksInfoModel model) {
+        companyNameQuote.setText(model.name);
+        symbolQuote.setText(model.symbol);
+        priceDaily.setText(String.valueOf(model.price));
+        changePercentageDaily.setText(String.valueOf(model.changesPercentage));
+        changeDaily.setText(String.valueOf(model.change));
+        dayLow.setText(String.valueOf(model.dayLow));
+        dayHigh.setText(String.valueOf(model.dayHigh));
+        yearLow.setText(String.valueOf(model.yearLow));
+        yearHigh.setText(String.valueOf(model.yearHigh));
+        marketCapDaily.setText(String.valueOf(model.marketCap));
+        priceAvg50.setText(String.valueOf(model.priceAvg50));
+        priceAvg200.setText(String.valueOf(model.priceAvg200));
+        openDailyPrice.setText(String.valueOf(model.open));
+        closeDailyPrice.setText(String.valueOf(model.previousClose));
+
+        isTicketDailyInfoLoaded = true;
     }
 
     private void updateView() {
@@ -243,23 +307,3 @@ public class UserViewController {
     }
 
 }
-/*public class CompanyInfoModel implements Serializable {
-    public String symbol;
-    public long mktCap;
-    public String companyName;
-    public String currency;
-    public String industry;
-    public String website;
-    public String description;
-    public String ceo;
-    public String sector;
-    public String country;
-    public String fullTimeEmployees;
-    public String phone;
-    public String address;
-    public String city;
-    public String state;
-    public String zip;
-    public String image;
-    public String ipoDate;
-}*/

@@ -1,12 +1,10 @@
 package com.server.implementation;
 
 import com.google.gson.Gson;
-import com.server.database.commands.AddCompanyInfo;
-import com.server.database.commands.AddKeyMetricsInfo;
-import com.server.database.commands.SelectCompanyInfo;
-import com.server.database.commands.SelectCompanyKeyMetrics;
+import com.server.database.commands.*;
 import com.server.models.CompanyInfoModel;
 import com.server.models.KeyMetricsModel;
+import com.server.models.StocksInfoModel;
 
 import java.sql.Connection;
 import java.util.Vector;
@@ -44,8 +42,27 @@ public class AllStocksService {
         return infos;
     }
 
-    public String getTicketRealTimeInfo(String symbol) {
-        return "";
+    public Vector<StocksInfoModel> getStockQuote(String symbol) {
+        SelectStockQuote sqlQuery = new SelectStockQuote();
+        sqlQuery.getData(symbol);
+        Vector<StocksInfoModel> models = sqlQuery.executeSelect(dataBaseConnection);
+        if (models.size() == 0) {
+            FMPClient fmpClient = new FMPClient();
+            String apiResponse = fmpClient.getKeyMetrics(symbol);
+
+            Gson gson = new Gson();
+            StocksInfoModel[] stocksInfoModels = gson.fromJson(apiResponse, StocksInfoModel[].class);
+
+            models.add(stocksInfoModels[0]);
+            AddStockQuoteInfo addKeyMetricsInfo = new AddStockQuoteInfo();
+            addKeyMetricsInfo.setData(stocksInfoModels[0]);
+
+            if(!addKeyMetricsInfo.update(dataBaseConnection))
+            {
+                System.out.println("Error during add company info to database (AllStocksService:85)");
+            }
+        }
+        return models;
     }
 
     public String getTicketHistorical(String symbol, int timeSeries) {
@@ -56,16 +73,6 @@ public class AllStocksService {
         return "";
     }
 
-    public Vector<CompanyInfoModel> JsonToCompanyInfo(String json)
-    {
-        Vector<CompanyInfoModel > infos = new Vector<>();
-        /*GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();*/
-
-        Gson gson = new Gson();
-
-        return infos;
-    }
 
     //TODO: should add date checker, if data is not valid
     public Vector<KeyMetricsModel> getKeyMetrics(String symbol) {
