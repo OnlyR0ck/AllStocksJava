@@ -31,11 +31,11 @@ public class AllStocksService {
             String apiResponse = fmpClient.getCompanyInfo(symbol);
 
             Gson gson = new Gson();
-            CompanyInfoModel companyInfoModel = gson.fromJson(apiResponse, CompanyInfoModel.class);
+            CompanyInfoModel[] companyInfoModel = gson.fromJson(apiResponse, CompanyInfoModel[].class);
 
-            infos.add(companyInfoModel);
+            infos.add(companyInfoModel[0]);
             AddCompanyInfo addCompanyInfo = new AddCompanyInfo();
-            addCompanyInfo.setData(companyInfoModel);
+            addCompanyInfo.setData(companyInfoModel[0]);
 
             if(!addCompanyInfo.update(dataBaseConnection))
             {

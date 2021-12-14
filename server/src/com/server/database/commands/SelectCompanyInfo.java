@@ -52,11 +52,11 @@ public class SelectCompanyInfo implements IRequestable {
                     info.sector = resultSet.getString(count++);
                     info.country = resultSet.getString(count++);
                     info.fullTimeEmployees = String.valueOf(resultSet.getInt(count++));
-                    info.phone = String.valueOf(resultSet.getInt(count++));
+                    info.phone = resultSet.getString(count++);
                     info.address = resultSet.getString(count++);
                     info.city = resultSet.getString(count++);
                     info.state = resultSet.getString(count++);
-                    info.zip = String.valueOf(resultSet.getInt(count++));
+                    info.zip = resultSet.getString(count++);
                     info.image = resultSet.getString(count++);
                     info.ipoDate = String.valueOf(resultSet.getDate(count++));
                     infos.add(info);

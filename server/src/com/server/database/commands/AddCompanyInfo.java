@@ -23,9 +23,7 @@ public class AddCompanyInfo implements IUpdateable {
     public boolean update(Connection connection) {
         int count = 1;
         try {
-            String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s," +
-                            " %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) " +
-                            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     Shemas.ALLSTOCKS, Company.Table, Company.Symbol, Company.CompanyName, Company.Currency,
                     Company.Industry, Company.Website, Company.Description, Company.Ceo, Company.Sector,
                     Company.Country, Company.FullTimeEmployees, Company.Phone, Company.Address, Company.City,
@@ -43,11 +41,11 @@ public class AddCompanyInfo implements IUpdateable {
                 preparedStatement.setString(count++, infoModel.sector);
                 preparedStatement.setString(count++, infoModel.country);
                 preparedStatement.setInt(count++, Integer.parseInt(infoModel.fullTimeEmployees));
-                preparedStatement.setInt(count++, Integer.parseInt(infoModel.phone));
+                preparedStatement.setString(count++, infoModel.phone);
                 preparedStatement.setString(count++, infoModel.address);
                 preparedStatement.setString(count++, infoModel.city);
                 preparedStatement.setString(count++, infoModel.state);
-                preparedStatement.setInt(count++, Integer.parseInt(infoModel.zip));
+                preparedStatement.setString(count++, infoModel.zip);
                 preparedStatement.setString(count++, infoModel.image);
                 preparedStatement.setDate(count++, Date.valueOf(infoModel.ipoDate));
 

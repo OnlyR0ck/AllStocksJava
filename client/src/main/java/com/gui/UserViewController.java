@@ -1,14 +1,18 @@
 package com.gui;
 
+import com.client.enumerations.SceneType;
 import com.client.implementation.AllClient;
 import com.client.services.SearchService;
 import com.server.commands.ServerCommandType;
 import com.server.models.CompanyInfoModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.util.Vector;
 
@@ -77,11 +81,25 @@ public class UserViewController {
     private Label zipLabel;
 
     @FXML
+    void start()
+    {
+
+    }
+    @FXML
+    void onKeyReleased(KeyEvent event) {
+        if(event.getCode() == KeyCode.ESCAPE)
+        {
+            SceneLoader.getInstance().switchScene(SceneType.SearchView);
+        }
+    }
+
+    @FXML
     void initialize() {
         updateView();
     }
 
     private void updateView() {
+
         String searchTerm = SearchService.getInstance().getSearchTerm();
         String clientRequest = String.format("%s %s", ServerCommandType.CompanyInfo, searchTerm);
         AllClient client = AllClient.getInstance();
@@ -94,6 +112,7 @@ public class UserViewController {
     }
 
     private void setReceivedData(CompanyInfoModel infoModel) {
+        ticketTextLabel.setText(infoModel.symbol);
         companyNameTitle.setText(infoModel.companyName);
         currencyLabel.setText(infoModel.currency);
         industryLabel.setText(infoModel.industry);

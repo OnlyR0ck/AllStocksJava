@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.ImageView?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.UserViewController">
+<AnchorPane onKeyReleased="#onKeyReleased" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.UserViewController">
    <children>
       <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -21,15 +22,18 @@
                      <children>
                         <VBox prefHeight="344.0" prefWidth="260.0">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="77.0" prefWidth="260.0" spacing="20.0">
+                              <HBox alignment="CENTER" prefHeight="77.0" prefWidth="88.0" spacing="10.0">
                                  <children>
-                                    <ImageView fx:id="companyLogoImage" fitHeight="62.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="companyLogoImage" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                     <Label fx:id="companyNameTitle" contentDisplay="CENTER" text="Apple">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
                               </HBox>
                               <Pane>
                                  <children>
@@ -58,7 +62,7 @@
                                           <Insets left="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label fx:id="industryLabel" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" layoutX="96.0" prefHeight="18.0" prefWidth="154.0" text="Consumer Electronics" />
+                                    <Label fx:id="industryLabel" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" layoutX="83.0" prefHeight="18.0" prefWidth="180.0" text="Consumer Electronics" />
                                  </children>
                               </Pane>
                               <Pane layoutX="10.0" layoutY="121.0">
@@ -183,14 +187,19 @@
                                     <Font name="Segoe UI Light" size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="123.0" layoutY="30.0" prefHeight="287.0" prefWidth="315.0" text="Описание">
-                                 <font>
-                                    <Font name="Segoe UI Light" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="10.0" right="10.0" />
-                                 </VBox.margin>
-                              </Label>
+                              <ScrollPane prefHeight="269.0" prefWidth="335.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="265.0" prefWidth="333.0">
+                                       <children>
+                                          <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefWidth="315.0" text="Описание" wrapText="true">
+                                             <font>
+                                                <Font name="Segoe UI Light" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
                            </children>
                         </VBox>
                      </children>

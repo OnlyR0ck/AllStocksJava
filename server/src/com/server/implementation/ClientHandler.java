@@ -75,16 +75,16 @@ public class ClientHandler implements Runnable {
 
                     case Exit -> {
                         closeThread();
-                        return;
+                        continue;
                     }
                     case Login -> {
                         getUser(dataFromClient);
-                        return;
+                        continue;
                     }
                     case Register -> sqlUpdateQuery = new AddNewUser();
                     case CompanyInfo -> {
                         getCompanyInfo(dataFromClient);
-                        return;
+                        continue;
                     }
                 }
 
