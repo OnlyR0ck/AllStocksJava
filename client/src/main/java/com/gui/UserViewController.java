@@ -5,7 +5,9 @@ import com.client.implementation.AllClient;
 import com.client.services.SearchService;
 import com.server.commands.ServerCommandType;
 import com.server.models.CompanyInfoModel;
+import com.server.models.KeyMetricsModel;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -13,10 +15,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Vector;
 
 public class UserViewController {
+
+    //region Company Info View
+    @FXML
+    private Tab companyInfoTab;
+
     @FXML
     private Label addressLabel;
 
@@ -25,9 +33,6 @@ public class UserViewController {
 
     @FXML
     private Label cityLabel;
-
-    @FXML
-    private Tab companyInfoTab;
 
     @FXML
     private ImageView companyLogoImage;
@@ -54,9 +59,6 @@ public class UserViewController {
     private Label ipoDateLabel;
 
     @FXML
-    private Tab keyMetricsTab;
-
-    @FXML
     private Label numberLabel;
 
     @FXML
@@ -66,12 +68,6 @@ public class UserViewController {
     private Label stateLabel;
 
     @FXML
-    private Tab ticketDailyTab;
-
-    @FXML
-    private Tab ticketRangedTab;
-
-    @FXML
     private Label ticketTextLabel;
 
     @FXML
@@ -79,23 +75,96 @@ public class UserViewController {
 
     @FXML
     private Label zipLabel;
+    //endregion
+
+    //region Key Metrics View
 
     @FXML
-    void start()
-    {
+    private Tab keyMetricsTab;
 
-    }
+    @FXML
+    private Label ticketMetricsField;
+
+    @FXML
+    private Label dateTextField;
+
+    @FXML
+    private Label marketCapField;
+
+    @FXML
+    private Label enterpriseValueField;
+
+    @FXML
+    private Label pbRatioField;
+
+    @FXML
+    private Label peRatioField;
+
+    @FXML
+    private Label psRatioField;
+
+    @FXML
+    private Label roeField;
+
+    @FXML
+    private Label roicField;
+
+    @FXML
+    private Label evField;
+
+    @FXML
+    private Label evToEbitda;
+
+    @FXML
+    private Label evToSalesField;
+
+    private boolean isKeyMetricsLoaded;
+
+    //endregion
+
+    @FXML
+    private Tab ticketDailyTab;
+
+    @FXML
+    private Tab ticketRangedTab;
+
     @FXML
     void onKeyReleased(KeyEvent event) {
-        if(event.getCode() == KeyCode.ESCAPE)
-        {
+        if (event.getCode() == KeyCode.ESCAPE) {
             SceneLoader.getInstance().switchScene(SceneType.SearchView);
         }
     }
 
+
     @FXML
     void initialize() {
         updateView();
+
+        keyMetricsTab.setOnSelectionChanged(event ->
+        {
+            if(keyMetricsTab.isSelected())
+            {
+                if (!isKeyMetricsLoaded) {
+                    loadKeyMetrics();
+                }
+            }
+        });
+
+        ticketDailyTab.setOnSelectionChanged(event ->
+        {
+            if(ticketRangedTab.isSelected())
+            {
+
+            }
+        });
+
+        ticketDailyTab.setOnSelectionChanged(event ->
+        {
+            if(ticketDailyTab.isSelected())
+            {
+
+            }
+        });
     }
 
     private void updateView() {
@@ -105,7 +174,7 @@ public class UserViewController {
         AllClient client = AllClient.getInstance();
         client.sendData(clientRequest);
 
-        Vector<CompanyInfoModel> infoModels = client.receiveInfoModels();
+        Vector<CompanyInfoModel> infoModels = client.receiveModels();
         CompanyInfoModel infoModel = infoModels.get(0);
 
         setReceivedData(infoModel);
@@ -131,6 +200,33 @@ public class UserViewController {
 
         Image logoImage = new Image(infoModel.image);
         companyLogoImage.setImage(logoImage);
+    }
+
+    private void loadKeyMetrics() {
+        String searchTerm = SearchService.getInstance().getSearchTerm();
+        String clientRequest = String.format("%s %s", ServerCommandType.KeyMetrics, searchTerm);
+        AllClient client = AllClient.getInstance();
+        client.sendData(clientRequest);
+
+        Vector<KeyMetricsModel> keyMetricsModels = client.receiveModels();
+        KeyMetricsModel keyMetricsModel = keyMetricsModels.get(0);
+        setKeyMetrics(keyMetricsModel);
+    }
+
+    private void setKeyMetrics(KeyMetricsModel keyMetricsModel) {
+        ticketMetricsField.setText(keyMetricsModel.symbol);
+        dateTextField.setText(keyMetricsModel.date);
+        marketCapField.setText(String.valueOf(keyMetricsModel.marketCap));
+        evField.setText(String.valueOf(keyMetricsModel.enterpriseValue));
+        peRatioField.setText(String.valueOf(keyMetricsModel.peRatio));
+        psRatioField.setText(String.valueOf(keyMetricsModel.priceToSalesRatio));
+        pbRatioField.setText(String.valueOf(keyMetricsModel.pbRatio));
+        evToSalesField.setText(String.valueOf(keyMetricsModel.evToSales));
+        evToEbitda.setText(String.valueOf(keyMetricsModel.enterpriseValueOverEBITDA));
+        roicField.setText(String.valueOf(keyMetricsModel.roic));
+        roeField.setText(String.valueOf(keyMetricsModel.roe));
+
+        isKeyMetricsLoaded = true;
     }
 
 }

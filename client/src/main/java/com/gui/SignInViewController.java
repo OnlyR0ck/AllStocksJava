@@ -50,7 +50,7 @@ public class SignInViewController {
         AllClient client = AllClient.getInstance();
         client.sendData(clientRequest);
 
-        Vector<UserModel> users = client.receiveUsers();
+        Vector<UserModel> users = client.receiveModels();
 
         if (users.size() != 0) {
             UserModel user = users

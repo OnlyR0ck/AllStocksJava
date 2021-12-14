@@ -2,9 +2,11 @@ package com.server.implementation;
 
 import com.google.gson.Gson;
 import com.server.database.commands.AddCompanyInfo;
+import com.server.database.commands.AddKeyMetricsInfo;
 import com.server.database.commands.SelectCompanyInfo;
-import com.server.database.enums.Company;
+import com.server.database.commands.SelectCompanyKeyMetrics;
 import com.server.models.CompanyInfoModel;
+import com.server.models.KeyMetricsModel;
 
 import java.sql.Connection;
 import java.util.Vector;
@@ -18,9 +20,6 @@ public class AllStocksService {
         fmpClient = new FMPClient();
     }
 
-    public Vector<CompanyInfoModel> getKeyMetrics(String symbol) {
-        return null;
-    }
 
     public Vector<CompanyInfoModel> getCompanyInfo(String symbol) {
         SelectCompanyInfo sqlQuery = new SelectCompanyInfo();
@@ -66,6 +65,30 @@ public class AllStocksService {
         Gson gson = new Gson();
 
         return infos;
+    }
+
+    //TODO: should add date checker, if data is not valid
+    public Vector<KeyMetricsModel> getKeyMetrics(String symbol) {
+        SelectCompanyKeyMetrics sqlQuery = new SelectCompanyKeyMetrics();
+        sqlQuery.getData(symbol);
+        Vector<KeyMetricsModel> models = sqlQuery.executeSelect(dataBaseConnection);
+        if (models.size() == 0) {
+            FMPClient fmpClient = new FMPClient();
+            String apiResponse = fmpClient.getKeyMetrics(symbol);
+
+            Gson gson = new Gson();
+            KeyMetricsModel[] keyMetricsModels = gson.fromJson(apiResponse, KeyMetricsModel[].class);
+
+            models.add(keyMetricsModels[0]);
+            AddKeyMetricsInfo addKeyMetricsInfo = new AddKeyMetricsInfo();
+            addKeyMetricsInfo.setData(keyMetricsModels[0]);
+
+            if(!addKeyMetricsInfo.update(dataBaseConnection))
+            {
+                System.out.println("Error during add company info to database (AllStocksService:85)");
+            }
+        }
+        return models;
     }
 }
 /*

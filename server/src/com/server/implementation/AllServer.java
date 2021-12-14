@@ -4,6 +4,7 @@ package com.server.implementation;
 
 import com.server.database.DatabaseConnection;
 import com.server.database.enums.Company;
+import com.server.database.enums.KeyMetrics;
 import com.server.database.enums.Shemas;
 
 import java.io.IOException;
@@ -57,11 +58,10 @@ public class AllServer {
     public static void main(String[] args) {
         AllServer.getInstance().startServer();
         AllServer.getInstance().run();
-        /*String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                Shemas.ALLSTOCKS, Company.Table, Company.Symbol, Company.CompanyName, Company.Currency,
-                Company.Industry, Company.Website, Company.Description, Company.Ceo, Company.Sector,
-                Company.Country, Company.FullTimeEmployees, Company.Phone, Company.Address, Company.City,
-                Company.State, Company.Zip, Company.Image, Company.IpoDate);
+        /*String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?)",
+                Shemas.ALLSTOCKS, KeyMetrics.Table, KeyMetrics.Date, KeyMetrics.MarketCap,
+                KeyMetrics.EnterpriseValue, KeyMetrics.PERatio, KeyMetrics.PSRatio, KeyMetrics.PBRatio,
+                KeyMetrics.EvToS, KeyMetrics.EvToEbitda, KeyMetrics.Roic, KeyMetrics.Roe);
         System.out.printf(sqlQuery);*/
     }
 }

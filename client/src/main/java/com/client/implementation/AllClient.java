@@ -1,6 +1,7 @@
 package com.client.implementation;
 
 import com.server.models.CompanyInfoModel;
+import com.server.models.KeyMetricsModel;
 import com.server.models.UserModel;
 
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class AllClient {
         return null;
     }
 
-    public Vector<UserModel> receiveUsers() {
+    /*public Vector<UserModel> receiveUsers() {
         try {
             //TODO: App stunning after second readObject (sometimes)
             Vector<UserModel> users = (Vector<UserModel>) inputStream.readObject();
@@ -86,7 +87,7 @@ public class AllClient {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 
     public void close() {
@@ -99,4 +100,25 @@ public class AllClient {
         }
     }
 
+    /*public Vector<KeyMetricsModel> receiveKeyMetricsModel() {
+        try {
+            //TODO: App stunning after second readObject (sometimes)
+            Vector<KeyMetricsModel> keyMetricsModels = (Vector<KeyMetricsModel>) inputStream.readObject();
+            return keyMetricsModels;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
+
+    public <T> Vector<T> receiveModels() {
+        try {
+            //TODO: App stunning after second readObject (sometimes)
+            Vector<T> models = (Vector<T>) inputStream.readObject();
+            return models;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

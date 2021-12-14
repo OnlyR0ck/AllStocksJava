@@ -1,8 +1,9 @@
 package com.server.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StocksInfoModel {
+public class StocksInfoModel implements Serializable {
     public String symbol;
     public String name;
     public double price;
