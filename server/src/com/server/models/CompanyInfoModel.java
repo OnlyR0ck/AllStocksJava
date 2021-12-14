@@ -1,6 +1,8 @@
 package com.server.models;
 
-public class CompanyInfoModel {
+import java.io.Serializable;
+
+public class CompanyInfoModel implements Serializable {
     public String symbol;
     public long mktCap;
     public String companyName;

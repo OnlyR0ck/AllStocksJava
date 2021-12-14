@@ -1,5 +1,6 @@
 package com.client.implementation;
 
+import com.server.models.CompanyInfoModel;
 import com.server.models.UserModel;
 
 import java.io.IOException;
@@ -67,9 +68,20 @@ public class AllClient {
 
     public Vector<UserModel> receiveUsers() {
         try {
-            //TODO: App stunning after second readObject
-            var users = (Vector<UserModel>) inputStream.readObject();
+            //TODO: App stunning after second readObject (sometimes)
+            Vector<UserModel> users = (Vector<UserModel>) inputStream.readObject();
             return users;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Vector<CompanyInfoModel> receiveInfoModels() {
+        try {
+            //TODO: App stunning after second readObject (sometimes)
+            Vector<CompanyInfoModel> infoModels = (Vector<CompanyInfoModel>) inputStream.readObject();
+            return infoModels;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -66,7 +66,7 @@ public class SignInViewController {
                     break;
                 }
                 case 0: {
-                    SceneLoader.getInstance().switchScene(SceneType.UserView);
+                    SceneLoader.getInstance().switchScene(SceneType.SearchView);
                     break;
                 }
                 case 1: {

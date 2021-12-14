@@ -4,7 +4,7 @@ public enum Company {
     Table {
         @Override
         public String toString() {
-            return "table";
+            return "company_info";
         }
     },
     Id {

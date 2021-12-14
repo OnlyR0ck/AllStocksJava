@@ -3,6 +3,8 @@ package com.server.implementation;
 //import com.SQLsupport.DatabaseConnection;
 
 import com.server.database.DatabaseConnection;
+import com.server.database.enums.Company;
+import com.server.database.enums.Shemas;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -55,8 +57,11 @@ public class AllServer {
     public static void main(String[] args) {
         AllServer.getInstance().startServer();
         AllServer.getInstance().run();
-       /* String sqlQuery = String.format("SELECT * FROM %s.%s WHERE %s = ? and %s = ?",
-                Shemas.ALLSTOCKS, User.TABLE, User.LOGIN, User.PASSWORD);
+        /*String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                Shemas.ALLSTOCKS, Company.Table, Company.Symbol, Company.CompanyName, Company.Currency,
+                Company.Industry, Company.Website, Company.Description, Company.Ceo, Company.Sector,
+                Company.Country, Company.FullTimeEmployees, Company.Phone, Company.Address, Company.City,
+                Company.State, Company.Zip, Company.Image, Company.IpoDate);
         System.out.printf(sqlQuery);*/
     }
 }

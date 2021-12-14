@@ -1,6 +1,8 @@
 package com.server.database.commands;
 
 import com.server.database.IRequestable;
+import com.server.database.ISqlQuery;
+import com.server.database.IUpdateable;
 import com.server.database.enums.Company;
 import com.server.database.enums.Shemas;
 import com.server.database.enums.User;
@@ -50,11 +52,11 @@ public class SelectCompanyInfo implements IRequestable {
                     info.sector = resultSet.getString(count++);
                     info.country = resultSet.getString(count++);
                     info.fullTimeEmployees = String.valueOf(resultSet.getInt(count++));
-                    info.phone = String.valueOf(resultSet.getInt(count++));
+                    info.phone = resultSet.getString(count++);
                     info.address = resultSet.getString(count++);
                     info.city = resultSet.getString(count++);
                     info.state = resultSet.getString(count++);
-                    info.zip = String.valueOf(resultSet.getInt(count++));
+                    info.zip = resultSet.getString(count++);
                     info.image = resultSet.getString(count++);
                     info.ipoDate = String.valueOf(resultSet.getDate(count++));
                     infos.add(info);
@@ -85,3 +87,4 @@ public class SelectCompanyInfo implements IRequestable {
     `zip` INT,
     `image` VARCHAR(80),
     `ipoDate` DATETIME,*/
+
