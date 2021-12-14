@@ -1,13 +1,9 @@
 package com.server.database.commands;
 
 import com.server.database.IRequestable;
-import com.server.database.ISqlQuery;
-import com.server.database.IUpdateable;
 import com.server.database.enums.Company;
 import com.server.database.enums.Shemas;
-import com.server.database.enums.User;
 import com.server.models.CompanyInfoModel;
-import com.server.models.UserModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +36,7 @@ public class SelectCompanyInfo implements IRequestable {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    count = 1;
+                    count = 2;
                     CompanyInfoModel info = new CompanyInfoModel();
                     info.symbol = resultSet.getString(count++);
                     info.companyName = resultSet.getString(count++);

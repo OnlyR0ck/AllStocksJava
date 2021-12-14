@@ -1,10 +1,8 @@
 package com.server.database.commands;
 
-import com.server.database.ISqlQuery;
 import com.server.database.IUpdateable;
 import com.server.database.enums.Company;
 import com.server.database.enums.Shemas;
-import com.server.database.enums.User;
 import com.server.models.CompanyInfoModel;
 
 import java.sql.Connection;

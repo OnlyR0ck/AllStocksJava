@@ -208,7 +208,83 @@
           </Tab>
           <Tab fx:id="keyMetricsTab" text="Показатели">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0">
+                           <children>
+                              <Label fx:id="ticketMetricsField" layoutX="10.0" layoutY="10.0" text="ТИКЕР">
+                                 <font>
+                                    <Font name="Segoe UI Light" size="38.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="dateTextField" text="Дата">
+                                 <font>
+                                    <Font name="Segoe UI Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="7.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Pane prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Капитализация" />
+                                    <Label fx:id="marketCapField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="95.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Стоимость компании" />
+                                    <Label fx:id="evField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="119.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="PE" />
+                                    <Label fx:id="peRatioField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="142.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="PS" />
+                                    <Label fx:id="psRatioField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="165.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="PB" />
+                                    <Label fx:id="pbRatioField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="187.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="EV/S" />
+                                    <Label fx:id="evToSalesField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="191.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="EV/EBITDA" />
+                                    <Label fx:id="evToEbitda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="194.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="ROIC" />
+                                    <Label fx:id="roicField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="259.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="ROE" />
+                                    <Label fx:id="roeField" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="109.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab fx:id="ticketRangedTab" text="Данные за промежуток">

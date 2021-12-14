@@ -1,6 +1,8 @@
 package com.server.models;
-//TODO: possible error 'cause of lists in database (json convert error)
-public class KeyMetricsModel {
+
+import java.io.Serializable;
+
+public class KeyMetricsModel implements Serializable {
     public String symbol;
     public String date;
     public double marketCap;

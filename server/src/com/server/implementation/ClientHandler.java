@@ -7,6 +7,7 @@ import com.server.database.ISqlQuery;
 import com.server.database.commands.AddNewUser;
 import com.server.database.commands.SelectUser;
 import com.server.models.CompanyInfoModel;
+import com.server.models.KeyMetricsModel;
 import com.server.models.UserModel;
 
 import java.io.IOException;
@@ -86,6 +87,10 @@ public class ClientHandler implements Runnable {
                         getCompanyInfo(dataFromClient);
                         continue;
                     }
+                    case KeyMetrics -> {
+                        getKeyMetrics(dataFromClient);
+                        continue;
+                    }
                 }
 
                 if (sqlUpdateQuery != null) {
@@ -113,6 +118,13 @@ public class ClientHandler implements Runnable {
             }
 
         }
+    }
+
+    private void getKeyMetrics(String dataFromClient) throws IOException {
+        AllStocksService service = new AllStocksService(dbConnection.getMyConnection());
+        Vector<KeyMetricsModel> keyMetricsModels = service.getKeyMetrics(dataFromClient);
+        outputStream.writeObject(keyMetricsModels);
+        outputStream.flush();
     }
 
     private void getCompanyInfo(String dataFromClient) throws IOException {
