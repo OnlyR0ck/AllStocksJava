@@ -2,8 +2,8 @@ drop table if exists `stocks_historical`;
 
 CREATE TABLE IF NOT EXISTS stocks_historical (
 	`stock_id` int not null auto_increment,
-    `symbol` VARCHAR(10) not null unique,
-    `date` DATETIME,
+    `symbol` VARCHAR(10) not null,
+    `date` DATETIME not null,
     `open` NUMERIC(6, 2),
     `high` NUMERIC(6, 2),
     `low` NUMERIC(6, 2),

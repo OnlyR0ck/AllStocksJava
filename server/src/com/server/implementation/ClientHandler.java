@@ -6,9 +6,7 @@ import com.server.database.DatabaseConnection;
 import com.server.database.ISqlQuery;
 import com.server.database.commands.AddNewUser;
 import com.server.database.commands.SelectUser;
-import com.server.models.CompanyInfoModel;
-import com.server.models.KeyMetricsModel;
-import com.server.models.UserModel;
+import com.server.models.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -91,6 +89,13 @@ public class ClientHandler implements Runnable {
                         getKeyMetrics(dataFromClient);
                         continue;
                     }
+                    case StockQuote -> {
+                        getStockQuote(dataFromClient);
+                        continue;
+                    }
+                    case TicketInfo -> {
+                        getStockHistoricalInfo(dataFromClient);
+                    }
                 }
 
                 if (sqlUpdateQuery != null) {
@@ -118,6 +123,21 @@ public class ClientHandler implements Runnable {
             }
 
         }
+    }
+
+    private void getStockHistoricalInfo(String dataFromClient) throws IOException {
+        AllStocksService service = new AllStocksService(dbConnection.getMyConnection());
+        String[] splitedData = dataFromClient.split(" ");
+        Vector<StocksHistoricalModels> stocksInfoModels = service.getTicketHistorical(splitedData[0], Integer.parseInt(splitedData[1]));
+        outputStream.writeObject(stocksInfoModels);
+        outputStream.flush();
+    }
+
+    private void getStockQuote(String dataFromClient) throws IOException {
+        AllStocksService service = new AllStocksService(dbConnection.getMyConnection());
+        Vector<StocksInfoModel> stocksInfoModels = service.getStockQuote(dataFromClient);
+        outputStream.writeObject(stocksInfoModels);
+        outputStream.flush();
     }
 
     private void getKeyMetrics(String dataFromClient) throws IOException {

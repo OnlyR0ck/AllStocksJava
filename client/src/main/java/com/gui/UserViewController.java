@@ -4,19 +4,20 @@ import com.client.enumerations.SceneType;
 import com.client.implementation.AllClient;
 import com.client.services.SearchService;
 import com.server.commands.ServerCommandType;
-import com.server.models.CompanyInfoModel;
-import com.server.models.KeyMetricsModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
+import com.server.models.*;
 import javafx.fxml.FXML;
+import javafx.scene.chart.*;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 public class UserViewController {
@@ -92,9 +93,6 @@ public class UserViewController {
     private Label marketCapField;
 
     @FXML
-    private Label enterpriseValueField;
-
-    @FXML
     private Label pbRatioField;
 
     @FXML
@@ -122,11 +120,80 @@ public class UserViewController {
 
     //endregion
 
+    //region TicketDaily
+
     @FXML
     private Tab ticketDailyTab;
 
     @FXML
+    private Label companyNameDaily;
+
+    @FXML
+    private Label symbolDaily;
+
+    @FXML
+    private Label priceDaily;
+
+    @FXML
+    private Label changePercentageDaily;
+
+    @FXML
+    private Label changeDaily;
+
+    @FXML
+    private Label dayLow;
+
+    @FXML
+    private Label dayHigh;
+
+    @FXML
+    private Label yearLow;
+
+    @FXML
+    private Label yearHigh;
+
+    @FXML
+    private Label marketCapDaily;
+
+    @FXML
+    private Label priceAvg50;
+
+    @FXML
+    private Label priceAvg200;
+
+    @FXML
+    private Label openDailyPrice;
+
+    @FXML
+    private Label closeDailyPrice;
+
+    private boolean isTicketDailyInfoLoaded;
+    
+    //endregion
+
+    //region TicketRanged
+
+    @FXML
     private Tab ticketRangedTab;
+
+    @FXML
+    private Button fiveDaysButton;
+
+    @FXML
+    private Button tenDaysButton;
+
+    @FXML
+    private Button twentyDaysButton;
+
+    @FXML
+    private Button monthButton;
+
+    @FXML
+    private AreaChart<String, Number> ticketPriceChart;
+
+    private boolean isGraphLoaded;
+
+    //endregion
 
     @FXML
     void onKeyReleased(KeyEvent event) {
@@ -154,7 +221,10 @@ public class UserViewController {
         {
             if(ticketRangedTab.isSelected())
             {
-
+                if(!isGraphLoaded)
+                {
+                    loadTicketPriceGraph(5);
+                }
             }
         });
 
@@ -162,9 +232,100 @@ public class UserViewController {
         {
             if(ticketDailyTab.isSelected())
             {
-
+                if(!isTicketDailyInfoLoaded)
+                {
+                    updateDailyTicketTab();
+                }
             }
         });
+
+        fiveDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(5);
+        });
+
+        tenDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(10);
+        });
+
+        twentyDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(20);
+        });
+
+        monthButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(30);
+        });
+    }
+
+    private void loadTicketPriceGraph(int days) {
+        String searchTerm = SearchService.getInstance().getSearchTerm();
+        String clientRequest = String.
+                format("%s %s %d", ServerCommandType.TicketInfo, searchTerm, days);
+
+        AllClient client = AllClient.getInstance();
+        client.sendData(clientRequest);
+
+        Vector<StocksHistoricalModels> infoModels = client.receiveModels();
+        StocksHistoricalModels infoModel = infoModels.get(0);
+
+        setDataToGraph(infoModel, days);
+    }
+
+    private void setDataToGraph(StocksHistoricalModels infoModel, int days) {
+        ticketPriceChart.getData().clear();
+        String title = String.format("График изменения цены %s за %d дней",
+                infoModel.symbol, days);
+
+
+        Series seriesOpen = new Series();
+        seriesOpen.setName("Открытие");
+
+        Series seriesClose = new Series();
+        seriesClose.setName("Закрытие");
+
+        ticketPriceChart.setTitle(title);
+
+        for(StocksHistoricalModel model : infoModel.models)
+        {
+            seriesOpen.getData().add(new XYChart.Data<>(String.valueOf(model.date), model.open));
+            seriesClose.getData().add(new XYChart.Data<>(String.valueOf(model.date), model.close));
+        }
+        ticketPriceChart.setAnimated(false);
+        ticketPriceChart.getData().addAll(seriesOpen, seriesClose);
+    }
+
+    private void updateDailyTicketTab() {
+        String searchTerm = SearchService.getInstance().getSearchTerm();
+        String clientRequest = String.format("%s %s", ServerCommandType.StockQuote, searchTerm);
+        AllClient client = AllClient.getInstance();
+        client.sendData(clientRequest);
+
+        Vector<StocksInfoModel> infoModels = client.receiveModels();
+        StocksInfoModel infoModel = infoModels.get(0);
+
+        setDailyTicketData(infoModel);
+    }
+
+    private void setDailyTicketData(StocksInfoModel model) {
+        companyNameDaily.setText(model.name);
+        symbolDaily.setText(model.symbol);
+        priceDaily.setText(String.valueOf(model.price));
+        changePercentageDaily.setText(String.valueOf(model.changesPercentage));
+        changeDaily.setText(String.valueOf(model.change));
+        dayLow.setText(String.valueOf(model.dayLow));
+        dayHigh.setText(String.valueOf(model.dayHigh));
+        yearLow.setText(String.valueOf(model.yearLow));
+        yearHigh.setText(String.valueOf(model.yearHigh));
+        marketCapDaily.setText(String.valueOf(model.marketCap));
+        priceAvg50.setText(String.valueOf(model.priceAvg50));
+        priceAvg200.setText(String.valueOf(model.priceAvg200));
+        openDailyPrice.setText(String.valueOf(model.open));
+        closeDailyPrice.setText(String.valueOf(model.previousClose));
+
+        isTicketDailyInfoLoaded = true;
     }
 
     private void updateView() {
@@ -230,23 +391,3 @@ public class UserViewController {
     }
 
 }
-/*public class CompanyInfoModel implements Serializable {
-    public String symbol;
-    public long mktCap;
-    public String companyName;
-    public String currency;
-    public String industry;
-    public String website;
-    public String description;
-    public String ceo;
-    public String sector;
-    public String country;
-    public String fullTimeEmployees;
-    public String phone;
-    public String address;
-    public String city;
-    public String state;
-    public String zip;
-    public String image;
-    public String ipoDate;
-}*/

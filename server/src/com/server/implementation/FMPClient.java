@@ -44,7 +44,7 @@ public class FMPClient {
 
         try {
             String query = String
-                    .format("https://financialmodelingprep.com/api/v3/profile/%s?apikey=%s", symbol, getApiKey());
+                    .format("https://financialmodelingprep.com/api/v3/profile/%s?apikey=%s", symbol.toUpperCase(Locale.ROOT), getApiKey());
 
             URL url = new URL(query);
 
@@ -60,13 +60,13 @@ public class FMPClient {
         return answer.toString();
     }
 
-    public String getTicketRealTimeInfo(String symbol)
+    public String getTicketQuoteInfo(String symbol)
     {
         StringBuilder answer = new StringBuilder();
 
         try {
             String query = String
-                    .format("https://financialmodelingprep.com/api/v3/quote/%s?apikey=%s", symbol, getApiKey());
+                    .format("https://financialmodelingprep.com/api/v3/quote/%s?apikey=%s", symbol.toUpperCase(Locale.ROOT), getApiKey());
 
             URL url = new URL(query);
 
@@ -94,7 +94,8 @@ public class FMPClient {
 
         try {
             String query = String
-                    .format("https://financialmodelingprep.com/api/v3/historical-price-full/%s?apikey=%s", symbol, getApiKey());
+                    .format("https://financialmodelingprep.com/api/v3/historical-price-full/%s?timeseries=%d&apikey=%s",
+                            symbol,timeSeries, getApiKey());
 
             URL url = new URL(query);
 

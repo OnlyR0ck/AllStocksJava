@@ -21,7 +21,8 @@ public class AddKeyMetricsInfo implements IUpdateable {
 
     @Override
     public boolean update(Connection connection) {
-        int count = 1;
+        //TODO:possible error here
+        int count = 2;
         try {
             String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                     Shemas.ALLSTOCKS, KeyMetrics.Table, KeyMetrics.Symbol, KeyMetrics.Date, KeyMetrics.MarketCap,

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -287,14 +291,133 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="ticketRangedTab" text="Данные за промежуток">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
             <Tab fx:id="ticketDailyTab" text="Данные за день">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="24.0" layoutY="24.0" prefWidth="278.0">
+                           <children>
+                              <Label fx:id="companyNameDaily" layoutX="10.0" layoutY="10.0" text="Копания">
+                                 <font>
+                                    <Font name="Segoe UI Light" size="38.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="symbolDaily" text="Тикер">
+                                 <font>
+                                    <Font name="Segoe UI Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="7.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Pane prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Цена" />
+                                    <Label fx:id="priceDaily" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="95.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Процент изменения" />
+                                    <Label fx:id="changePercentageDaily" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="119.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Изменилось" />
+                                    <Label fx:id="changeDaily" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="142.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Дневной минимум" />
+                                    <Label fx:id="dayLow" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="165.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Дневной максимум" />
+                                    <Label fx:id="dayHigh" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="187.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Годовой минимум" />
+                                    <Label fx:id="yearLow" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="191.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Годовой максимум" />
+                                    <Label fx:id="yearHigh" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="194.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Капитализация" />
+                                    <Label fx:id="marketCapDaily" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="259.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Средняя за 50 дней" />
+                                    <Label fx:id="priceAvg50" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="70.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="309.0" layoutY="97.0">
+                           <children>
+                              <Pane prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Средняя за 200" />
+                                    <Label fx:id="priceAvg200" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="75.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="95.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Цена открытия" />
+                                    <Label fx:id="openDailyPrice" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="75.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="119.0" prefHeight="23.0" prefWidth="316.0">
+                                 <children>
+                                    <Label layoutX="7.0" layoutY="5.0" text="Цена закрытия" />
+                                    <Label fx:id="closeDailyPrice" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="75.0" layoutY="5.0" prefHeight="18.0" prefWidth="207.0" text="10000" textAlignment="RIGHT" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="ticketRangedTab" text="График за промежуток">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AreaChart fx:id="ticketPriceChart" layoutX="14.0" layoutY="19.0" prefHeight="303.0" prefWidth="523.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </AreaChart>
+                        <VBox alignment="TOP_CENTER" layoutX="535.0" layoutY="47.0" prefHeight="153.0" prefWidth="61.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="fiveDaysButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="5" textAlignment="JUSTIFY" />
+                              <Button fx:id="tenDaysButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="10" textAlignment="JUSTIFY" />
+                              <Button fx:id="twentyDaysButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" text="20" textAlignment="JUSTIFY" />
+                              <Button fx:id="monthButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" text="Месяц" textAlignment="JUSTIFY" />
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>

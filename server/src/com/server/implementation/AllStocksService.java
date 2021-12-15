@@ -1,12 +1,10 @@
 package com.server.implementation;
 
 import com.google.gson.Gson;
-import com.server.database.commands.AddCompanyInfo;
-import com.server.database.commands.AddKeyMetricsInfo;
-import com.server.database.commands.SelectCompanyInfo;
-import com.server.database.commands.SelectCompanyKeyMetrics;
-import com.server.models.CompanyInfoModel;
-import com.server.models.KeyMetricsModel;
+import com.google.gson.GsonBuilder;
+import com.server.commands.SelectStocksHistorical;
+import com.server.database.commands.*;
+import com.server.models.*;
 
 import java.sql.Connection;
 import java.util.Vector;
@@ -36,35 +34,59 @@ public class AllStocksService {
             AddCompanyInfo addCompanyInfo = new AddCompanyInfo();
             addCompanyInfo.setData(companyInfoModel[0]);
 
-            if(!addCompanyInfo.update(dataBaseConnection))
-            {
+            if (!addCompanyInfo.update(dataBaseConnection)) {
                 System.out.println("Error during add company info to database (AllStocksService:35)");
             }
         }
         return infos;
     }
 
-    public String getTicketRealTimeInfo(String symbol) {
-        return "";
+    public Vector<StocksInfoModel> getStockQuote(String symbol) {
+        SelectStockQuote sqlQuery = new SelectStockQuote();
+        sqlQuery.getData(symbol);
+        Vector<StocksInfoModel> models = sqlQuery.executeSelect(dataBaseConnection);
+        if (models.size() == 0) {
+            FMPClient fmpClient = new FMPClient();
+            String apiResponse = fmpClient.getTicketQuoteInfo(symbol);
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            StocksInfoModel[] stocksInfoModels = gson.fromJson(apiResponse, StocksInfoModel[].class);
+
+            models.add(stocksInfoModels[0]);
+            AddStockQuoteInfo addKeyMetricsInfo = new AddStockQuoteInfo();
+            addKeyMetricsInfo.setData(stocksInfoModels[0]);
+
+            if (!addKeyMetricsInfo.update(dataBaseConnection)) {
+                System.out.println("Error during add stock quote info to database (AllStocksService:85)");
+            }
+        }
+        return models;
     }
 
-    public String getTicketHistorical(String symbol, int timeSeries) {
-        return "";
-    }
+    public Vector<StocksHistoricalModels> getTicketHistorical(String symbol, int timeSeries) {
+        SelectStocksHistorical sqlQuery = new SelectStocksHistorical();
+        sqlQuery.getData(symbol);
+        Vector<StocksHistoricalModels> models = sqlQuery.executeSelect(dataBaseConnection);
+        if (models.size() == 0) {
+            FMPClient fmpClient = new FMPClient();
+            String apiResponse = fmpClient.getTicketHistorical(symbol, timeSeries);
 
-    public String getTicketHistorical(String symbol, String dateFrom, String dateTo) {
-        return "";
-    }
+            Gson gson = new Gson();
 
-    public Vector<CompanyInfoModel> JsonToCompanyInfo(String json)
-    {
-        Vector<CompanyInfoModel > infos = new Vector<>();
-        /*GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();*/
+            StocksHistoricalModels stocksHistoricalModels = gson.fromJson(apiResponse, StocksHistoricalModels.class);
 
-        Gson gson = new Gson();
+            models.add(stocksHistoricalModels);
+            for (StocksHistoricalModel model :
+                    models.get(0).models) {
+                AddStocksHistorical addKeyMetricsInfo = new AddStocksHistorical();
+                addKeyMetricsInfo.setData(model, symbol);
 
-        return infos;
+                if (!addKeyMetricsInfo.update(dataBaseConnection)) {
+                    System.out.println("Error during add tickets historical to database (AllStocksService:85)");
+                }
+            }
+        }
+        return models;
     }
 
     //TODO: should add date checker, if data is not valid
@@ -83,9 +105,8 @@ public class AllStocksService {
             AddKeyMetricsInfo addKeyMetricsInfo = new AddKeyMetricsInfo();
             addKeyMetricsInfo.setData(keyMetricsModels[0]);
 
-            if(!addKeyMetricsInfo.update(dataBaseConnection))
-            {
-                System.out.println("Error during add company info to database (AllStocksService:85)");
+            if (!addKeyMetricsInfo.update(dataBaseConnection)) {
+                System.out.println("Error during add key metrics to database (AllStocksService:85)");
             }
         }
         return models;
