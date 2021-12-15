@@ -3,10 +3,13 @@ package com.gui;
 import com.client.enumerations.SceneType;
 import com.client.implementation.AllClient;
 import com.client.services.SearchService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.server.commands.ServerCommandType;
 import com.server.models.*;
 import javafx.fxml.FXML;
-import javafx.scene.chart.*;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,8 +19,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.util.Date;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 public class UserViewController {
@@ -84,6 +89,9 @@ public class UserViewController {
     private Tab keyMetricsTab;
 
     @FXML
+    private Button saveMetricsToFile;
+
+    @FXML
     private Label ticketMetricsField;
 
     @FXML
@@ -116,6 +124,7 @@ public class UserViewController {
     @FXML
     private Label evToSalesField;
 
+    private KeyMetricsModel keyMetricsModel;
     private boolean isKeyMetricsLoaded;
 
     //endregion
@@ -258,6 +267,25 @@ public class UserViewController {
         {
             loadTicketPriceGraph(30);
         });
+
+        saveMetricsToFile.setOnMouseClicked(mouseEvent ->
+        {
+            try {
+                saveKeyMetricsToFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void saveKeyMetricsToFile() throws IOException {
+        String fileName = String.format("saved-key-metrics-%s", keyMetricsModel.symbol);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String data = gson.toJson(keyMetricsModel);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+        writer.write(data);
+        writer.close();
     }
 
     private void loadTicketPriceGraph(int days) {
@@ -370,7 +398,8 @@ public class UserViewController {
         client.sendData(clientRequest);
 
         Vector<KeyMetricsModel> keyMetricsModels = client.receiveModels();
-        KeyMetricsModel keyMetricsModel = keyMetricsModels.get(0);
+
+        keyMetricsModel = keyMetricsModels.get(0);
         setKeyMetrics(keyMetricsModel);
     }
 

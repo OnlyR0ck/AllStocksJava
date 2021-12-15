@@ -43,6 +43,8 @@ public class SelectCompanyKeyMetrics implements IRequestable {
                     model.marketCap = resultSet.getDouble(count++);
                     model.enterpriseValue = resultSet.getDouble(count++);
                     model.peRatio = resultSet.getDouble(count++);
+                    model.priceToSalesRatio = resultSet.getDouble(count++);
+                    model.pbRatio = resultSet.getDouble(count++);
                     model.evToSales = resultSet.getDouble(count++);
                     model.enterpriseValueOverEBITDA = resultSet.getDouble(count++);
                     model.roic = resultSet.getDouble(count++);
