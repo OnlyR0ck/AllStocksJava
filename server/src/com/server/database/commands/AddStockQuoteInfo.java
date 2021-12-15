@@ -21,9 +21,9 @@ public class AddStockQuoteInfo implements IUpdateable {
     }
     @Override
     public boolean update(Connection connection) {
-        int count = 2;
+        int count = 1;
         try {
-            String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            String sqlQuery = String.format("INSERT INTO %s.%s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     Shemas.ALLSTOCKS, StocksQuote.Table, StocksQuote.Symbol, StocksQuote.Name, StocksQuote.Price,
                     StocksQuote.ChangesPercentage, StocksQuote.Change, StocksQuote.DayLow, StocksQuote.DayHigh,
                     StocksQuote.YearHigh, StocksQuote.YearLow, StocksQuote.MarketCap, StocksQuote.PriceAverage50,

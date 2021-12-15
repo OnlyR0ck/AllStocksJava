@@ -7,6 +7,7 @@ module com.gui {
     requires org.kordamp.bootstrapfx.core;
     requires com.google.gson;
     requires server;
+    requires java.sql;
 
     opens com.gui to javafx.fxml;
     exports com.gui;

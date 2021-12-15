@@ -22,7 +22,7 @@ public enum StocksHistorical {
     Date {
         @Override
         public String toString() {
-            return "date";
+            return "stocks_historical.date";
         }
     },
     Open {
@@ -46,19 +46,19 @@ public enum StocksHistorical {
     Close {
         @Override
         public String toString() {
-            return "close";
+            return "stocks_historical.close";
         }
     },
     Change {
         @Override
         public String toString() {
-            return "change";
+            return "stocks_historical.change";
         }
     },
     ChangePercent {
         @Override
         public String toString() {
-            return "changePercent";
+            return "stocks_historical.changePercent";
         }
     },
     Label {

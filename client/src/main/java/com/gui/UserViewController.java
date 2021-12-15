@@ -4,10 +4,11 @@ import com.client.enumerations.SceneType;
 import com.client.implementation.AllClient;
 import com.client.services.SearchService;
 import com.server.commands.ServerCommandType;
-import com.server.models.CompanyInfoModel;
-import com.server.models.KeyMetricsModel;
-import com.server.models.StocksInfoModel;
+import com.server.models.*;
 import javafx.fxml.FXML;
+import javafx.scene.chart.*;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
@@ -15,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 public class UserViewController {
@@ -123,10 +126,10 @@ public class UserViewController {
     private Tab ticketDailyTab;
 
     @FXML
-    private Tab companyNameQuote;
+    private Label companyNameDaily;
 
     @FXML
-    private Tab symbolQuote;
+    private Label symbolDaily;
 
     @FXML
     private Label priceDaily;
@@ -168,8 +171,29 @@ public class UserViewController {
     
     //endregion
 
+    //region TicketRanged
+
     @FXML
     private Tab ticketRangedTab;
+
+    @FXML
+    private Button fiveDaysButton;
+
+    @FXML
+    private Button tenDaysButton;
+
+    @FXML
+    private Button twentyDaysButton;
+
+    @FXML
+    private Button monthButton;
+
+    @FXML
+    private AreaChart<String, Number> ticketPriceChart;
+
+    private boolean isGraphLoaded;
+
+    //endregion
 
     @FXML
     void onKeyReleased(KeyEvent event) {
@@ -197,7 +221,10 @@ public class UserViewController {
         {
             if(ticketRangedTab.isSelected())
             {
-
+                if(!isGraphLoaded)
+                {
+                    loadTicketPriceGraph(5);
+                }
             }
         });
 
@@ -211,6 +238,63 @@ public class UserViewController {
                 }
             }
         });
+
+        fiveDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(5);
+        });
+
+        tenDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(10);
+        });
+
+        twentyDaysButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(20);
+        });
+
+        monthButton.setOnMouseClicked(mouseEvent ->
+        {
+            loadTicketPriceGraph(30);
+        });
+    }
+
+    private void loadTicketPriceGraph(int days) {
+        String searchTerm = SearchService.getInstance().getSearchTerm();
+        String clientRequest = String.
+                format("%s %s %d", ServerCommandType.TicketInfo, searchTerm, days);
+
+        AllClient client = AllClient.getInstance();
+        client.sendData(clientRequest);
+
+        Vector<StocksHistoricalModels> infoModels = client.receiveModels();
+        StocksHistoricalModels infoModel = infoModels.get(0);
+
+        setDataToGraph(infoModel, days);
+    }
+
+    private void setDataToGraph(StocksHistoricalModels infoModel, int days) {
+        ticketPriceChart.getData().clear();
+        String title = String.format("График изменения цены %s за %d дней",
+                infoModel.symbol, days);
+
+
+        Series seriesOpen = new Series();
+        seriesOpen.setName("Открытие");
+
+        Series seriesClose = new Series();
+        seriesClose.setName("Закрытие");
+
+        ticketPriceChart.setTitle(title);
+
+        for(StocksHistoricalModel model : infoModel.models)
+        {
+            seriesOpen.getData().add(new XYChart.Data<>(String.valueOf(model.date), model.open));
+            seriesClose.getData().add(new XYChart.Data<>(String.valueOf(model.date), model.close));
+        }
+        ticketPriceChart.setAnimated(false);
+        ticketPriceChart.getData().addAll(seriesOpen, seriesClose);
     }
 
     private void updateDailyTicketTab() {
@@ -226,8 +310,8 @@ public class UserViewController {
     }
 
     private void setDailyTicketData(StocksInfoModel model) {
-        companyNameQuote.setText(model.name);
-        symbolQuote.setText(model.symbol);
+        companyNameDaily.setText(model.name);
+        symbolDaily.setText(model.symbol);
         priceDaily.setText(String.valueOf(model.price));
         changePercentageDaily.setText(String.valueOf(model.changesPercentage));
         changeDaily.setText(String.valueOf(model.change));

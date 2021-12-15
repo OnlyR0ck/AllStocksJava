@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -393,9 +397,27 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="ticketRangedTab" text="Данные за промежуток">
+            <Tab fx:id="ticketRangedTab" text="График за промежуток">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AreaChart fx:id="ticketPriceChart" layoutX="14.0" layoutY="19.0" prefHeight="303.0" prefWidth="523.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </AreaChart>
+                        <VBox alignment="TOP_CENTER" layoutX="535.0" layoutY="47.0" prefHeight="153.0" prefWidth="61.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="fiveDaysButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="5" textAlignment="JUSTIFY" />
+                              <Button fx:id="tenDaysButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="10" textAlignment="JUSTIFY" />
+                              <Button fx:id="twentyDaysButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" text="20" textAlignment="JUSTIFY" />
+                              <Button fx:id="monthButton" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="71.0" mnemonicParsing="false" text="Месяц" textAlignment="JUSTIFY" />
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>
